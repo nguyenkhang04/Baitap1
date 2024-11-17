@@ -1,0 +1,35 @@
+.task {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+
+  &__name {
+    flex-grow: 1;
+  }
+
+  &__group-btn {
+    display: flex;
+    gap: 10px;
+  }
+
+  &__btn-done {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+
+  &__btn-del {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+
+  &.task-done {
+    background-color: #e0ffe0; 
+    text-decoration: line-through;
+  }
+}

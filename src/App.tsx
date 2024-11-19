@@ -10,7 +10,6 @@ interface TaskType {
   taskName: string;
   isDone: boolean;
 }
-
 const LOCAL_STORAGE_KEY = "tasks";
 
 const App: React.FC = () => {
@@ -18,17 +17,21 @@ const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const tasksPerPage = 5;
 
-  
   useEffect(() => {
     const storedTasks = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (storedTasks) {
-      setTasks(JSON.parse(storedTasks));
+      try {
+        setTasks(JSON.parse(storedTasks));
+      } catch (error) {
+        console.error("Error parsing tasks from localStorage:", error);
+      }
     }
   }, []);
 
- 
   useEffect(() => {
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(tasks));
+    if (tasks.length > 0) {
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(tasks));
+    }
   }, [tasks]);
 
   const addTask = (taskName: string) => {

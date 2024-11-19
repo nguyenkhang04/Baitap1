@@ -10,6 +10,7 @@ interface TaskType {
   taskName: string;
   isDone: boolean;
 }
+
 const LOCAL_STORAGE_KEY = "tasks";
 
 const App: React.FC = () => {
@@ -17,17 +18,19 @@ const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const tasksPerPage = 5;
 
+  
   useEffect(() => {
     const storedTasks = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (storedTasks) {
       try {
         setTasks(JSON.parse(storedTasks));
       } catch (error) {
-        console.error("Error parsing tasks from localStorage:", error);
+        console.error("Lỗi khi phân tích dữ liệu từ localStorage:", error);
       }
     }
   }, []);
 
+  
   useEffect(() => {
     if (tasks.length > 0) {
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(tasks));
@@ -40,8 +43,9 @@ const App: React.FC = () => {
       taskName,
       isDone: false,
     };
-    setTasks([newTask, ...tasks]);
-    setCurrentPage(1);
+    const updatedTasks = [newTask, ...tasks];
+    setTasks(updatedTasks);
+    setCurrentPage(1); 
   };
 
   const deleteTask = (id: number) => {
@@ -49,13 +53,17 @@ const App: React.FC = () => {
     setTasks(updatedTasks);
     const totalPages = Math.ceil(updatedTasks.length / tasksPerPage);
     if (currentPage > totalPages) {
-      setCurrentPage(totalPages || 1);
+      setCurrentPage(totalPages || 1); 
     }
+    
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedTasks));
   };
 
   const doneTask = (id: number) => {
     setTasks(
-      tasks.map((task) => (task.id === id ? { ...task, isDone: true } : task))
+      tasks.map((task) =>
+        task.id === id ? { ...task, isDone: true } : task
+      )
     );
   };
 

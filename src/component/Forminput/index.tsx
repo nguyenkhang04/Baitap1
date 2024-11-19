@@ -31,7 +31,7 @@ const Form: React.FC<FormProps> = ({ onAddTask }) => {
           onChange={(e) => setTaskName(e.target.value)}
         />
         <button type="submit" className="todo-list-header__btn-add-task">
-          <PlusCircleOutlined style={{ fontSize: "25px" }} />
+          <PlusCircleOutlined style={{ fontSize: "25px" , padding: "10px"}} />
         </button>
       </form>
       <Divider />

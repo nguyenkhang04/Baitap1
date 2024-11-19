@@ -33,3 +33,30 @@
     text-decoration: line-through;
   }
 }
+.task__name {
+  white-space: nowrap;
+  overflow-x: auto;
+  max-width: 100%;
+  display: block;
+  scrollbar-width: thin;
+  scrollbar-color: #ccc #f5f5f5;
+}
+
+.task__name::-webkit-scrollbar {
+  height: 6px;
+}
+
+.task__name::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.task__name::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.task__name::-webkit-scrollbar-track {
+  background: #f5f5f5;
+}
+
+

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import Task from "./component/Task";
 import Forminput from "./component/Forminput";
@@ -11,10 +11,25 @@ interface TaskType {
   isDone: boolean;
 }
 
+const LOCAL_STORAGE_KEY = "tasks";
+
 const App: React.FC = () => {
   const [tasks, setTasks] = useState<TaskType[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const tasksPerPage = 5;
+
+  
+  useEffect(() => {
+    const storedTasks = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (storedTasks) {
+      setTasks(JSON.parse(storedTasks));
+    }
+  }, []);
+
+ 
+  useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(tasks));
+  }, [tasks]);
 
   const addTask = (taskName: string) => {
     const newTask: TaskType = {
@@ -23,10 +38,16 @@ const App: React.FC = () => {
       isDone: false,
     };
     setTasks([newTask, ...tasks]);
+    setCurrentPage(1);
   };
 
   const deleteTask = (id: number) => {
-    setTasks(tasks.filter((task) => task.id !== id));
+    const updatedTasks = tasks.filter((task) => task.id !== id);
+    setTasks(updatedTasks);
+    const totalPages = Math.ceil(updatedTasks.length / tasksPerPage);
+    if (currentPage > totalPages) {
+      setCurrentPage(totalPages || 1);
+    }
   };
 
   const doneTask = (id: number) => {
